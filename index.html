@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tatistoskop</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    #word { font-size: 48px; margin: 20px; }
+    #inputBox { font-size: 24px; padding: 10px; }
+    #feedback { font-size: 20px; color: green; }
+  </style>
+</head>
+<body>
+  <h1>Tatistoskop</h1>
+  <div id="word">Hazır mısın?</div>
+  <input type="text" id="inputBox" placeholder="Kelimeyi yaz..." />
+  <div id="feedback"></div>
+  <script>
+    const words = ["su", "ev", "elma", "kitap", "çalışmak", "bilgisayar", "karanfil", "mutluluk", "gökyüzü", "çocuk"];
+    let currentIndex = 0;
+
+    const wordElement = document.getElementById("word");
+    const inputBox = document.getElementById("inputBox");
+    const feedback = document.getElementById("feedback");
+
+    function showNextWord() {
+      if (currentIndex < words.length) {
+        wordElement.textContent = words[currentIndex];
+        inputBox.value = "";
+        feedback.textContent = "";
+        setTimeout(() => inputBox.focus(), 100);
+      } else {
+        wordElement.textContent = "Bitti!";
+        inputBox.style.display = "none";
+      }
+    }
+
+    inputBox.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        const userInput = inputBox.value.trim();
+        const correct = words[currentIndex];
+        if (userInput === correct) {
+          feedback.style.color = "green";
+          feedback.textContent = "Doğru!";
+        } else {
+          feedback.style.color = "red";
+          feedback.textContent = `Yanlış! Doğru: ${correct}`;
+        }
+        currentIndex++;
+        setTimeout(showNextWord, 1000);
+      }
+    });
+
+    showNextWord();
+  </script>
+</body>
+</html>
